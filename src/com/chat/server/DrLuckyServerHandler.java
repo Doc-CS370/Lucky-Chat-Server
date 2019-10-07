@@ -48,10 +48,5 @@ public class DrLuckyServerHandler extends SimpleChannelInboundHandler<String> {
                 }
             }
         }
-
-        // Close the connection if the client has sent 'bye'.
-        if ("bye".equals(msg.toLowerCase())) {
-            ctx.close();
-        }
     }
 }
