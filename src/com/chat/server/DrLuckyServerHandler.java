@@ -13,6 +13,7 @@ import io.netty.util.concurrent.GlobalEventExecutor;
 
 public class DrLuckyServerHandler extends SimpleChannelInboundHandler<String> {
     static final ChannelGroup channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    public static String lastMessage = "";
 
     @Override
     public void channelActive(final ChannelHandlerContext ctx) {
@@ -35,6 +36,7 @@ public class DrLuckyServerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String msg) throws Exception {
         System.out.println("User has said something: " + msg);
+        lastMessage = msg;
         //Loop through all connected channels
         for (Channel c: channels) {
             if(msg.equalsIgnoreCase("pong")){

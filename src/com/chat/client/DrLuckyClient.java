@@ -19,7 +19,9 @@ public class DrLuckyClient {
     static final String HOST = "127.0.0.1";
     static final int PORT = 9000;
 
-    public static void main(String[] args) throws Exception {
+    public static String lastMessage = null;
+
+    public static void start() throws Exception {
         // Configure SSL. For this we're just showing the implementation but not using a proper certificate
         final SslContext sslCtx = SslContextBuilder.forClient()
                 .trustManager(InsecureTrustManagerFactory.INSTANCE).build();
@@ -38,13 +40,12 @@ public class DrLuckyClient {
             ChannelFuture lastWriteFuture = null;
             BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
             for (;;) {
-                String line = in.readLine();
-                if (line == null) {
+                System.out.println(DrLuckyClient.lastMessage);
+                if (DrLuckyClient.lastMessage != null) {
+                    lastWriteFuture = ch.writeAndFlush(DrLuckyClient.lastMessage + "\r\n");
+                    DrLuckyClient.lastMessage = null;
                     break;
                 }
-
-                // Sends the received line to the server.
-                lastWriteFuture = ch.writeAndFlush(line + "\r\n");
 
             }
 

@@ -13,7 +13,7 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 public class DrLuckyServer {
     static final int PORT = 9000;
 
-    public static void main(String[] args) throws Exception {
+    public static void start() throws Exception {
         EventLoopGroup parentGroup = new NioEventLoopGroup(1);
         EventLoopGroup childGroup = new NioEventLoopGroup();
 
