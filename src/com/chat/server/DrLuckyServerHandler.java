@@ -38,17 +38,20 @@ public class DrLuckyServerHandler extends SimpleChannelInboundHandler<String> {
         System.out.println("User has said something: " + msg);
         lastMessage = msg;
         //Loop through all connected channels
-        for (Channel c: channels) {
-            if(msg.equalsIgnoreCase("pong")){
-                c.writeAndFlush("[ SERVER ]: PING \n");
-            } else {
-                if (c != ctx.channel()) {
-                    c.writeAndFlush("[" + ctx.channel().remoteAddress() + "] " + msg + '\n');
+        if(channels.size() > 1){
+            for (Channel c: channels) {
+                if(msg.equalsIgnoreCase("pong")){
+                    c.writeAndFlush("[ SERVER ]: PING \n");
                 } else {
-                    //If its the channel that sent the message.
-                    c.writeAndFlush("[you] " + msg + '\n');
+                    if (c != ctx.channel()) {
+                        c.writeAndFlush("[" + ctx.channel().remoteAddress() + "] " + msg + '\n');
+                    } else {
+                        //If its the channel that sent the message.
+                        c.writeAndFlush("[you] " + msg + '\n');
+                    }
                 }
             }
         }
+
     }
 }

@@ -22,16 +22,17 @@ public class MessageTest {
         Thread chatClient = new Thread(runnableClient);
         chatClient.start();
         Thread.sleep(5000);
-        DrLuckyClient.lastMessage = "hello";
+        String testMessage = "hello";
+        DrLuckyClient.lastMessage = testMessage;
+        Thread.sleep(2000);
+        String testAgainst = "";
         while(true){
-
+            if(DrLuckyServerHandler.lastMessage != "" && DrLuckyServerHandler.lastMessage != null){
+                testAgainst = DrLuckyServerHandler.lastMessage;
+                assertEquals(testMessage, testAgainst);
+                System.out.println("Client: " + testMessage + " Server: " + testAgainst );
+                break;
+            }
         }
-        //Make sure its connected
-
-
-
-
     }
-
-
 }
